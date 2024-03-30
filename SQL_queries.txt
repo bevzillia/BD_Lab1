@@ -1,0 +1,23 @@
+Request (b):
+SELECT m.name AS city, AVG(n.monthly_rent) AS average_monthly_cost
+FROM real_estate n
+JOIN cities m ON n.city_id = m.id
+WHERE m.availability = TRUE AND n.publication_date BETWEEN '2020-01-01' AND '2020-12-31'
+GROUP BY m.name, MONTH(n.publication_date);
+
+Request (d):
+SELECT m.name AS city, YEAR(n.publication_date) AS pub_year, MONTH(n.publication_date) AS pub_month,
+AVG(n.monthly_rent) AS average_monthly_cost, AVG(n.area) AS average_area
+FROM real_estate n
+JOIN cities m ON n.city_id = m.id
+WHERE m.availability = TRUE AND n.furniture LIKE '%bed%' AND n.furniture LIKE '%table%'
+GROUP BY m.name, YEAR(n.publication_date), MONTH(n.publication_date);
+
+Request (e):
+SELECT r.name AS district, AVG(n.monthly_rent) AS average_monthly_cost
+FROM real_estate n
+JOIN districts r ON n.district_id = r.id
+WHERE r.zone_id = (SELECT id FROM zones WHERE name = 'Zakarpatta')
+AND n.publication_date BETWEEN '2020-09-01' AND '2020-11-30'
+GROUP BY r.name;
+
